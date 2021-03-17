@@ -5,13 +5,13 @@ class WriterPage
 
   def born_at
     text = page.search('td').select{ |td| td.text == '生年：' }.first&.next&.text
-    return
+    return if text.blank?
     Date.new(*text.gsub(/ /, '').split('-').map(&:to_i)) # 空白入ってるやつやYYYY, YYYY-mmのやつらのため
   end
 
   def dead_at
     text = page.search('td').select{ |td| td.text == '没年：' }.first&.next&.text
-    return
+    return if text.blank?
     Date.new(*text.gsub(/ /, '').split('-').map(&:to_i)) # 空白入ってるやつやYYYY, YYYY-mmのやつらのため
   end
 
