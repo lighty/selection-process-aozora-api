@@ -6,13 +6,17 @@ class WriterPage
   def born_at
     text = page.search('td').select{ |td| td.text == '生年：' }.first&.next&.text
     return if text.blank?
-    Date.new(*text.gsub(/ /, '').split('-').map(&:to_i)) # 空白入ってるやつやYYYY, YYYY-mmのやつらのため
+    text.gsub!(/ /, '') # 空白入ってるやつ
+    text.gsub!(/--/, '-') # ハイフン連続しちゃってるやつ
+    Date.new(*text.split('-').map(&:to_i)) # YYYY, YYYY-mmの形式のやつ
   end
 
   def dead_at
     text = page.search('td').select{ |td| td.text == '没年：' }.first&.next&.text
     return if text.blank?
-    Date.new(*text.gsub(/ /, '').split('-').map(&:to_i)) # 空白入ってるやつやYYYY, YYYY-mmのやつらのため
+    text.gsub!(/ /, '') # 空白入ってるやつ
+    text.gsub!(/--/, '-') # ハイフン連続しちゃってるやつ
+    Date.new(*text.split('-').map(&:to_i)) # YYYY, YYYY-mmの形式のやつ
   end
 
   private
@@ -42,7 +46,6 @@ namespace :load do
           w.save! unless Writer.find_by_id(w.id)
         rescue => e
           pp w
-          pp writer_page.search('/html/body/table/tr[4]/td[2]').text
           raise e
         end
       end
