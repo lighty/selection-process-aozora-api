@@ -19,7 +19,7 @@ namespace :load do
       writer_page_links.each do |writer_page_link|
         writer_page = writer_page_link.click
         work_links = writer_page.links.select{|l| l.href&.match(/card\d+.html/)}
-        works = Parallel.map(work_links, in_thread: 10) do |work_link|
+        works = Parallel.map(work_links) do |work_link|
           PageAdaptor::WorkPage.new(work_link.click).to_hash
         end
         Work.insert_all(works)
