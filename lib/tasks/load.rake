@@ -16,14 +16,16 @@ namespace :load do
     agent = Mechanize.new
     agent.get('https://www.aozora.gr.jp/index_pages/person_all.html') do |page|
       writer_page_links = page.links.select{|l| l.href&.match(/person\d+.html/)}
-      writer_page_links.each do |writer_page_link|
+      works = Parallel.map(writer_page_links) do |writer_page_link|
+        puts writer_page_link.text
         writer_page = writer_page_link.click
         work_links = writer_page.links.select{|l| l.href&.match(/card\d+.html/)}
-        works = Parallel.map(work_links) do |work_link|
+        work_links.map do |work_link|
+          puts "　" + work_link.text
           PageAdaptor::WorkPage.new(work_link.click).to_hash
         end
-        Work.insert_all(works)
-      end
+      end.flatten
+      Work.insert_all(works)
     end
   end
 end
