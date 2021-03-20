@@ -26,7 +26,8 @@ class PageAdaptor::WriterPage
   end
 
   def wikipedia_url
-    page.search('td').select{ |td| td.text == '人物について：' }.first&.next&.search('a[2]')&.attribute('href')&.value || ""
+    page.search('td').select{ |td| td.text == '人物について：' }.first&.next&.search('a')
+      &.select{ |a| a.attribute('href').value.match('http://ja.wikipedia.org/wiki/') }&.first&.attribute('href')&.value || ""
   end
 
   def to_model

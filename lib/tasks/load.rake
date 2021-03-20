@@ -17,11 +17,9 @@ namespace :load do
     agent.get('https://www.aozora.gr.jp/index_pages/person_all.html') do |page|
       writer_page_links = page.links.select{|l| l.href&.match(/person\d+.html/)}
       works = Parallel.map(writer_page_links) do |writer_page_link|
-        puts writer_page_link.text
         writer_page = writer_page_link.click
         work_links = writer_page.links.select{|l| l.href&.match(/card\d+.html/)}
         work_links.map do |work_link|
-          puts "　" + work_link.text
           PageAdaptor::WorkPage.new(work_link.click).to_hash
         end
       end.flatten
