@@ -14,23 +14,23 @@ ActiveRecord::Schema.define(version: 2021_03_17_160330) do
 
   create_table "works", force: :cascade do |t|
     t.integer "writer_id", null: false
-    t.string "name", null: false
-    t.string "pronunciation", null: false
-    t.string "file_url", null: false
-    t.string "wikipedia_url", null: false
+    t.string "name", default: "", null: false
+    t.string "pronunciation", default: "", null: false
+    t.string "file_url", default: "", null: false
+    t.string "wikipedia_url", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["writer_id"], name: "index_works_on_writer_id"
   end
 
   create_table "writers", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "pronunciation", null: false
-    t.string "romaji", null: false
-    t.date "born_at", null: false
+    t.string "name", default: "", null: false
+    t.string "pronunciation", default: "", null: false
+    t.string "romaji", default: "", null: false
+    t.date "born_at"
     t.date "dead_at"
-    t.string "summary", null: false
-    t.string "wikipedia_url", null: false
+    t.string "summary", default: "", null: false
+    t.string "wikipedia_url", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
