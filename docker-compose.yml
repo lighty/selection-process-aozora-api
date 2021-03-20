@@ -1,0 +1,28 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=password
+    volumes_from: [data]
+    ports: ["5432:5432"]
+    networks:
+      - default
+  web:
+    build: .
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - .:/aozora-api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+  data:
+    container_name: data
+    image: busybox
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - default
+volumes:
+  db_data:
