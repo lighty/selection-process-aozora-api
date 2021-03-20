@@ -12,7 +12,8 @@ class PageAdaptor::WorkPage
   end
 
   def wikipedia_url
-    page.search('td').select{ |td| td.text == '作品について：' }.first&.next&.search('a[3]')&.attribute('href')&.value || ""
+    page.search('td').select{ |td| td.text == '作品について：' }.first&.next&.search('a')
+      &.select{ |a| a.attribute('href').value.match('http://ja.wikipedia.org/wiki/') }&.first&.attribute('href')&.value || ""
   end
 
   def file_url
