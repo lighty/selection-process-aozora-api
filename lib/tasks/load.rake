@@ -66,7 +66,12 @@ class WorkPage
   end
 
   def to_model
-    Work.new(id: id, name: name, pronunciation: pronunciation, file_url: file_url, wikipedia_url: wikipedia_url, writer_id: writer_id)
+    Work.new(to_hash)
+  end
+
+  def to_hash
+    { id: id, name: name, pronunciation: pronunciation, file_url: file_url, wikipedia_url: wikipedia_url, writer_id: writer_id,
+      created_at: Time.now, updated_at: Time.now }
   end
 
   private
@@ -99,16 +104,10 @@ namespace :load do
       writer_page_links.each do |writer_page_link|
         writer_page = writer_page_link.click
         work_links = writer_page.links.select{|l| l.href&.match(/card\d+.html/)}
-        Parallel.each(work_links) do |work_link|
-        # work_links.each do |work_link|
-          begin
-            work = WorkPage.new(work_link.click).to_model
-            work.save! unless Work.find_by_id(work.id)
-          rescue => e
-            pp work_link.click.uri
-            raise e
-          end
+        works = Parallel.map(work_links, in_thread: 10) do |work_link|
+          WorkPage.new(work_link.click).to_hash
         end
+        Work.insert_all(works)
       end
     end
   end
