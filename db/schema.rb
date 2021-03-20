@@ -12,8 +12,11 @@
 
 ActiveRecord::Schema.define(version: 2021_03_17_160330) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "works", force: :cascade do |t|
-    t.integer "writer_id", null: false
+    t.bigint "writer_id", null: false
     t.string "name", default: "", null: false
     t.string "pronunciation", default: "", null: false
     t.string "file_url", default: "", null: false

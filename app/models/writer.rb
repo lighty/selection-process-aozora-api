@@ -2,7 +2,7 @@
 #
 # Table name: writers
 #
-#  id            :integer          not null, primary key
+#  id            :bigint           not null, primary key
 #  born_at       :date
 #  dead_at       :date
 #  name          :string           default(""), not null
