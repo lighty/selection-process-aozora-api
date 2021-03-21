@@ -21,5 +21,11 @@ FactoryBot.define do
     pronunciation { 'なつめ そうせき' }
     summary { '慶応3年1月5日（新暦2月9日）江戸牛込馬場下横町に生まれる。' }
     wikipedia_url { 'http://ja.wikipedia.org/' }
+
+    trait :with_work do
+      after :build do |writer|
+        writer.works << build(:work) 
+      end
+    end
   end
 end
