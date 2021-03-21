@@ -3,11 +3,25 @@ class PageAdaptor::WriterPage
     @page = page
   end
 
-  def id() = page.uri.to_s.match(/person(\d+).html/)[1].to_i
-  def name() = search_value_of('作家名：')
-  def pronunciation() = search_value_of('作家名読み：')
-  def romaji() = search_value_of('ローマ字表記：')
-  def summary() = search_value_of('人物について：')
+  def id
+    page.uri.to_s.match(/person(\d+).html/)[1].to_i
+  end
+
+  def name
+    search_value_of('作家名：')
+  end
+
+  def pronunciation
+    search_value_of('作家名読み：')
+  end
+
+  def romaji
+    search_value_of('ローマ字表記：')
+  end
+
+  def summary
+    search_value_of('人物について：')
+  end
 
   def born_at
     text = search_value_of('生年：')

@@ -3,9 +3,17 @@ class PageAdaptor::WorkPage
     @page = page
   end
 
-  def id() = page.uri.to_s.match(/card(\d+).html/)[1].to_i
-  def name() = search_value_of('作品名：')
-  def pronunciation() = search_value_of('作品名読み：')
+  def id
+    page.uri.to_s.match(/card(\d+).html/)[1].to_i
+  end
+
+  def name
+    search_value_of('作品名：')
+  end
+
+  def pronunciation
+    search_value_of('作品名読み：')
+  end
 
   def writer_id
     page.uri.to_s.match(/\/(\d+)\//)[1].to_i
